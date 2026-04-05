@@ -1,3 +1,8 @@
+import warnings
+warnings.filterwarnings("ignore", category=SyntaxWarning)
+
+
+
 
 # ============================================================
 #  Facebook Dumper \u2014 Optimized Edition
@@ -184,13 +189,13 @@ def _safe_get(session, url, cookie, retries=3, **kwargs) -> str:
             r.raise_for_status()
             return r.text
         except requests.exceptions.Timeout:
-            print(f"\[WARN] GET timeout  (attempt {attempt}/{retries}): {url}", end="")
+            print(f"[WARN] GET timeout  (attempt {attempt}/{retries}): {url}", end="")
             time.sleep(BACKOFF_FACTOR * (2 ** attempt))
         except requests.exceptions.ConnectionError as e:
-            print(f"\[WARN] Connection error (attempt {attempt}/{retries}): {e}", end="")
+            print(f"[WARN] Connection error (attempt {attempt}/{retries}): {e}", end="")
             time.sleep(BACKOFF_FACTOR * (2 ** attempt))
         except requests.exceptions.HTTPError as e:
-            print(f"\[WARN] HTTP error (attempt {attempt}/{retries}): {e}", end="")
+            print(f"[WARN] HTTP error (attempt {attempt}/{retries}): {e}", end="")
             if e.response is not None and e.response.status_code == 429:
                 time.sleep(5 + random.uniform(1, 3))   # back-off on rate-limit
             else:
@@ -213,19 +218,19 @@ def _safe_post(session, url, data, cookie, retries=3, **kwargs):
             r.raise_for_status()
             return r.json()
         except requests.exceptions.Timeout:
-            print(f"\[WARN] POST timeout  (attempt {attempt}/{retries})", end="")
+            print(f"[WARN] POST timeout  (attempt {attempt}/{retries})", end="")
             time.sleep(BACKOFF_FACTOR * (2 ** attempt))
         except requests.exceptions.ConnectionError as e:
-            print(f"\[WARN] Connection error (attempt {attempt}/{retries}): {e}", end="")
+            print(f"[WARN] Connection error (attempt {attempt}/{retries}): {e}", end="")
             time.sleep(BACKOFF_FACTOR * (2 ** attempt))
         except requests.exceptions.HTTPError as e:
-            print(f"\[WARN] HTTP error (attempt {attempt}/{retries}): {e}", end="")
+            print(f"[WARN] HTTP error (attempt {attempt}/{retries}): {e}", end="")
             if e.response is not None and e.response.status_code == 429:
                 time.sleep(5 + random.uniform(1, 3))
             else:
                 break
         except (ValueError, KeyError):
-            print(f"\[WARN] JSON parse error (attempt {attempt}/{retries})", end="")
+            print(f"[WARN] JSON parse error (attempt {attempt}/{retries})", end="")
             break
     return None
 
@@ -432,7 +437,7 @@ Name : {name}")
                 with self._count_lock:
                     counter["n"] += 1
                     self._total  += 1
-                print(f"\Dumped {self._total} IDs (total)", end="")
+                print(f"Dumped {self._total} IDs (total)", end="")
                 sys.stdout.flush()
             except (KeyError, TypeError):
                 continue
@@ -452,4 +457,4 @@ Name : {name}")
         session = make_session()
         uid, name, html = self._check_profile(url, session)
         if not uid:
-            print(f"[SKIP
+            print(f"[SKIP]")
