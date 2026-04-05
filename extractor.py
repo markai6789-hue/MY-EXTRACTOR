@@ -397,10 +397,10 @@ Name : {name}")
         writer.close()
 
         if counter["n"] == 0:
-            print(f"\[FAIL] No IDs dumped for {uid}\
+            print(f"[FAIL] No IDs dumped for {uid}\
 ")
         else:
-            print(f"\[OK]   Dumped {counter['n']} IDs \u2192 {filepath}\
+            print(f"[OK]   Dumped {counter['n']} IDs \u2192 {filepath}\
 ")
 
     def _paginate_friendlist(self, session, data, flid, cursor, writer, counter):
